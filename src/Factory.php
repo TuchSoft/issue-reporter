@@ -6,6 +6,7 @@ use Composer\Autoload\ClassLoader;
 use ReflectionClass;
 use Tuchsoft\IssueReporter\Format\Base\FormatInterface;
 use Tuchsoft\IssueReporter\Base\LoadableInterface;
+use Tuchsoft\IssueReporter\Transformer\base\TransformerInterface;
 use Tuchsoft\IssueReporter\Utils\Path;
 
 class Factory {
@@ -44,7 +45,13 @@ class Factory {
     }
 
     protected static function registerClass(string $type, string $fqn): void {
-        if (!is_a($fqn, FormatInterface::class, true)) {
+        $interface = match ($type) {
+            self::FORMAT => FormatInterface::class,
+            self::TRANSFORMER => TransformerInterface::class,
+            default => null,
+        };
+
+        if ($interface === null || !is_a($fqn, $interface, true)) {
             return;
         }
 

@@ -2,14 +2,22 @@
 <?php
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Tuchsoft\IssueReporter\Command\ArgvNormalizer;
+use Tuchsoft\IssueReporter\Command\Convert;
 use Tuchsoft\IssueReporter\Command\ListFormat;
+use Tuchsoft\IssueReporter\Command\ListTransformer;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$application = new Application('Issue report CLI', '0.0.1');
+$application = new Application('Issue report CLI', '1.0.0');
 
 $application->add(new ListFormat());
-$application->setDefaultCommand('list-format', true);
+$application->add(new ListTransformer());
+$application->add(new Convert());
+$application->setDefaultCommand('list-format');
 
-$application->run();
+// Allow the "read a recipe from STDIN" spelling "--config -" (and "-c -").
+$argv = ArgvNormalizer::normalize($_SERVER['argv'] ?? []);
 
+$application->run(new ArgvInput($argv));
