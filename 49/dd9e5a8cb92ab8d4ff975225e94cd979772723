@@ -1,0 +1,34 @@
+phpunit.xml
+  h_a912520b04f25d 1-41
+test/Format/InfoHtmlTest.php
+  h_a912520b04f25d 1-394
+test/Format/InfoMdTest.php
+  h_a912520b04f25d 1-428
+test/Format/InfoTest.php
+  h_a912520b04f25d 1-376
+test/Format/JunitTest.php
+  h_a912520b04f25d 1-675
+test/Format/LspTest.php
+  h_a912520b04f25d 1-534
+test/Format/RawXmlTest.php
+  h_a912520b04f25d 3
+test/Format/SarifTest.php
+  h_a912520b04f25d 1-645
+test/Format/SonarQubeTest.php
+  h_a912520b04f25d 1-640
+test/Model/ReportTest.php
+  h_a912520b04f25d 1-83
+test/Utils/PathTest.php
+  h_a912520b04f25d 49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "49dd9e5a8cb92ab8d4ff975225e94cd979772723",
+  "prompts": {},
+  "humans": {
+    "h_a912520b04f25d": {
+      "author": "Mattia Bonzi <mattia@mattiabonzi.it>"
+    }
+  }
+}
