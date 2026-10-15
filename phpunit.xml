@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Format">
+            <directory>test/Format</directory>
+        </testsuite>
+        <testsuite name="Command">
+            <directory>test/Command</directory>
+        </testsuite>
+        <testsuite name="Recipe">
+            <directory>test/Recipe</directory>
+        </testsuite>
+        <testsuite name="Factory">
+            <directory>test/Factory</directory>
+        </testsuite>
+        <testsuite name="Utils">
+            <directory>test/Utils</directory>
+        </testsuite>
+        <testsuite name="Model">
+            <directory>test/Model</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="display_errors" value="On"/>
+        <ini name="memory_limit" value="3G"/>
+    </php>
+
+
+</phpunit>

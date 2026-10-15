@@ -1,6 +1,6 @@
 <?php
 
-namespace Format;
+namespace Tuchsoft\IssueReporter\Test\Format;
 
 
 use PHPUnit\Framework\Attributes\CoversClass;

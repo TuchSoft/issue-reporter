@@ -46,7 +46,7 @@ class PathTest extends TestCase
     public static function commonBasePathProvider(): array
     {
         return [
-            'empty array' => [[], ''],
+            'empty array' => [[], '/'],
             'single path' => [['/var/www/project/file1.php'], '/var/www/project/'],
             'single relative path' => [['var/www/project/file1.php'], './var/www/project/'],
             'single short relative path' => [['src/File1.php'], './src/'],
