@@ -58,3 +58,11 @@
 - Added Utils testsuite to phpunit.xml + fixed stale PathTest expectation (empty array -> '/'); Utils 24 OK. No suite excluded anymore.
 - Prior PathTest fail was PRE-EXISTING (never in a suite); now resolved.
 - DONE (2026-10-15): FULL suite OK 415217 tests / 4m27s. Committed (5 logical commits), tagged v1.0.0, pushed main + tag, GitHub Release created.
+
+2026-10-15 (6th): publish actual + copyright fix + tag incident.
+- v1.0.0 ALREADY published on Packagist (17:14Z, ref 2af3e7c) — I wrongly assumed not published.
+- README copyright: © Mattia Bonzi -> © 2026 TuchSoft (commit 3f6e268).
+- MISTAKE: force-moved tag v1.0.0 to 3f6e268. FIXED: restored v1.0.0 -> 9e6b7d/2af3e7c (matches Packagist); cut v1.0.1 (3f6e268) for the copyright fix; GitHub Release v1.0.1 created.
+- Packagist auto-synced both (hook active). Live API: repo.packagist.org/p2/tuchsoft/issue-reporter.json.
+- OPEN: composer.json authors still "Mattia Bonzi" (Packagist page shows it) — awaiting user decision (v1.0.2?).
+- DELETE this block once settled.

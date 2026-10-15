@@ -25,4 +25,6 @@
 2026-10-15: .idea/ untracked + .gitignore `.idea/` — why: IDE noise, not part of the package.
 2026-10-15: .gitattributes export-ignore for /.idea /.agents /.complex_plans /CLAUDE.md /test /phpunit.xml /.gitattributes /.gitignore — why: slim Packagist dist. docs/ + README + LICENSE still shipped.
 2026-10-15: Added `Utils` testsuite to phpunit.xml + fixed stale PathTest expectation (`findCommonBasePath([])` -> '/', was '') — why: PathTest was excluded/unrun, hiding a stale expectation against an intentional implementation behavior.
-2026-10-15: Released v1.0.0 — 5 logical commits on main, annotated tag v1.0.0 pushed, GitHub Release created. Packagist submission still PENDING (no Packagist API token on the machine). Known limitations deferred to 1.1 (see docs/todo.md).
+2026-10-15: Released v1.0.0 — 5 logical commits on main, annotated tag v1.0.0 pushed, GitHub Release created. Known limitations deferred to 1.1 (see docs/todo.md).
+2026-10-15: CORRECTION — tuchsoft/issue-reporter was ALREADY published on Packagist (v1.0.0 @17:14Z, ref 2af3e7c) before the copyright fix. The earlier "Packagist submission PENDING" note was a wrong assumption from stale session state.
+2026-10-15: Accidentally force-moved the published v1.0.0 tag to 3f6e268 (copyright fix). Reverted: restored v1.0.0 to its original tag object 9e6b7d -> commit 2af3e7c (matching Packagist), and shipped the copyright fix as a NEW patch release v1.0.1 (3f6e268). Lesson: verify live remote/Packagist state; never rewrite a published tag.

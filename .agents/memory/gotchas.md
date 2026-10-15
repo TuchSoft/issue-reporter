@@ -22,3 +22,5 @@
 - PathTest stale expectation fixed: `findCommonBasePath([])` returns '/' (intentional early-return; callers use it as Report basePath, and '' normalizes to '/' anyway) — test expected '' (~pre-existing, never ran until Utils suite added).
 - Test files must be PSR-4 clean: RawXmlTest namespace was `Format` (fixed -> Tuchsoft\IssueReporter\Test\Format); GItLabTest.php misnamed (fixed -> GitLabTest.php). `composer dump-autoload -o` no longer warns.
 - src/Format/todo.md removed (stray); codeclimate idea lives in docs/todo.md backlog.
+- NEVER force-move/rewrite a tag that was already PUBLISHED to Packagist. Packagist auto-syncs (hook IS active for tuchsoft/issue-reporter: v1.0.1 appeared within ~3 min of push). To fix a bad post-publish commit: restore the tag to the published commit, then ship a NEW patch version.
+- tuchsoft/issue-reporter IS published on Packagist (v1.0.0 @17:14Z ref 2af3e7c, v1.0.1 @17:20Z ref 3f6e268). Do NOT assume "not published yet".
