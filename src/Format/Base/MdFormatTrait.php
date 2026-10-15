@@ -32,6 +32,19 @@ trait MdFormatTrait
         return $this->builder->getMarkdown().PHP_EOL;
     }
 
+    /**
+     * Makes arbitrary user text safe for a single Markdown table cell.
+     *
+     * Pipes would otherwise introduce extra columns and raw newlines would
+     * split the row in two, breaking the table layout.
+     */
+    protected function escapeTableCell(string $value): string
+    {
+        $value = str_replace('|', '\\|', $value);
+
+        return str_replace(["\r\n", "\r", "\n"], '<br>', $value);
+    }
+
 
     public static function getFormat(): string
     {

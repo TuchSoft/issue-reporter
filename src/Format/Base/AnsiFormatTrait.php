@@ -25,6 +25,14 @@ trait AnsiFormatTrait
         $this->builder = new SymfonyStyle(new NullInput(),  $this->buffer);
     }
 
+    /**
+     * ANSI output renders cells as-is; no Markdown/HTML escaping is required.
+     */
+    protected function escapeTableCell(string $value): string
+    {
+        return $value;
+    }
+
     protected function getSeverityIcon(int $severity): string
     {
         return $this->getSeverityEmoji($severity) .  match ($severity) {

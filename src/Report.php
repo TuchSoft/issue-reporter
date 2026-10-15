@@ -283,11 +283,15 @@ class Report implements \JsonSerializable
         foreach ($json['issues'] as $path => $issueArray) {
             if (isset($issueArray['severity'])) {
                 //Flat structure
-                $report->issues[] = Issue::fromJson($issueArray);
+                $issue = Issue::fromJson($issueArray);
+                self::initRelativePath($report, $issue, $issueArray);
+                $report->issues[] = $issue;
             } else {
                 //File based structure
                 foreach ($issueArray as $issueData) {
-                    $report->issues[] = Issue::fromJson($issueData);
+                    $issue = Issue::fromJson($issueData);
+                    self::initRelativePath($report, $issue, $issueData);
+                    $report->issues[] = $issue;
                 }
             }
         }
@@ -309,6 +313,24 @@ class Report implements \JsonSerializable
         }
 
         return $report;
+    }
+
+    /**
+     * Ensures an issue parsed with {@see Issue::fromJson()} has its relativePath set.
+     *
+     * Issues added via {@see Report::addIssue()} get it computed, but parsed issues are
+     * inserted directly, so formats that read the relative path (info, raw, ...) would
+     * otherwise fail on the uninitialized typed property.
+     *
+     * @param array<string, mixed> $data The raw issue data; a provided "relativePath" is kept.
+     */
+    private static function initRelativePath(Report $report, Issue $issue, array $data): void
+    {
+        if (array_key_exists('relativePath', $data)) {
+            return;
+        }
+
+        $issue->setRelativePath(Path::stripBasepath($issue->getPath(), $report->getBasePath()));
     }
 
     /**

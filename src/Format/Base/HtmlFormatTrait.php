@@ -28,6 +28,21 @@ trait HtmlFormatTrait
         return (new Parsedown())->text($this->writeMd());
     }
 
+    /**
+     * Escapes user text for the Markdown source that is later converted to HTML
+     * by Parsedown. The Markdown is rendered verbatim (inline HTML included), so
+     * the text must be HTML-escaped before it reaches Parsedown to avoid XSS.
+     *
+     * Overrides the Markdown-only escaping of {@see MdFormatTrait::escapeTableCell()}.
+     */
+    protected function escapeTableCell(string $value): string
+    {
+        $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $value = str_replace('|', '\\|', $value);
+
+        return str_replace(["\r\n", "\r", "\n"], '<br>', $value);
+    }
+
     public static function getFormat(): string
     {
         return self::FORMAT_HTML;

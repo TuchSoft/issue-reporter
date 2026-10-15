@@ -7,6 +7,7 @@ use Tuchsoft\IssueReporter\Format\Base\JsonFormatTrait;
 use Tuchsoft\IssueReporter\Format\Base\ParsableFormatInterface;
 use Tuchsoft\IssueReporter\Issue;
 use Tuchsoft\IssueReporter\Report;
+use Tuchsoft\IssueReporter\Utils\Path;
 
 /**
  * An implementation of a report format that serializes and deserializes
@@ -41,7 +42,9 @@ class Sarif extends AbstractFormat implements ParsableFormatInterface
         $issuesByPath = $report->getIssues();
 
         // Group issues by rule code to build the SARIF 'rules' array
-        foreach ($report->getIssues() as $issue) {
+        // getIssues(false) yields a FLAT Issue[] list; the default ($byFile = true)
+        // returns Issue[][] and would make $issue->getCode() a fatal error.
+        foreach ($report->getIssues(false) as $issue) {
             /** @var Issue $issue */
             $code = $issue->getCode();
             if (!isset($issuesByCode[$code])) {
@@ -128,7 +131,7 @@ class Sarif extends AbstractFormat implements ParsableFormatInterface
             ]
         ];
 
-        return $this->jsonEncode($sarifLog, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        return $this->jsonEncode($sarifLog);
     }
 
     /**
@@ -155,6 +158,7 @@ class Sarif extends AbstractFormat implements ParsableFormatInterface
         }
 
         $flatIssues = [];
+        $allPaths = [];
         foreach ($data['runs'] as $run) {
             if (!isset($run['results']) || !is_array($run['results'])) {
                 continue;
@@ -202,6 +206,7 @@ class Sarif extends AbstractFormat implements ParsableFormatInterface
                     $issueData['help'] = $rule['help']['text'];
                 }
 
+                $allPaths[] = $path;
                 $flatIssues[] = $issueData;
             }
         }
@@ -212,6 +217,7 @@ class Sarif extends AbstractFormat implements ParsableFormatInterface
             'subReports' => [],
             'timeStart' => 0,
             'timeEnd' => 0,
+            'basePath' => Path::findCommonBasePath($allPaths),
         ];
 
         return Report::fromJson($reportData);
@@ -228,7 +234,9 @@ class Sarif extends AbstractFormat implements ParsableFormatInterface
 
     public static function supports(): array
     {
-        return [];
+        return [
+            ...self::FEATURE_ISSUE_STANDARD,
+        ];
     }
 
     public static function supportsExtra(): array

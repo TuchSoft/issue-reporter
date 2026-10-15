@@ -14,7 +14,14 @@ trait InfoFormatTrait
         $rows = [];
         foreach ([...$report->getSubReports(), $report] as $subReport) {
             $totals = $subReport->getTotalsRecursive();
-            $rows[] = [$report->getName(), $totals['totalFiles'], $totals['totalErrors'], $totals['totalWarnings'], $totals['totalTips'], $report->getTotalTime() . ' ms'];
+            $rows[] = [
+                $this->escapeTableCell($subReport->getName()),
+                $totals['totalFiles'],
+                $totals['totalErrors'],
+                $totals['totalWarnings'],
+                $totals['totalTips'],
+                $subReport->getTotalTime() . ' ms',
+            ];
         }
 
         return [
@@ -43,10 +50,10 @@ trait InfoFormatTrait
                 $rows[] = array_filter([
                     $issue->getLine() . ($issue->getColumn() ? ":{$issue->getColumn()}" : ''),
                     $this->getSeverityIcon($issue->getSeverity()),
-                    $issue->getCode(),
-                    $issue->getMessage(),
-                    $this->options['show-help'] ? $issue->getHelp() : null,
-                    $this->options['show-ref'] ? $issue->getRef() : null
+                    $this->escapeTableCell($issue->getCode()),
+                    $this->escapeTableCell($issue->getMessage()),
+                    $this->options['show-help'] ? $this->escapeTableCell($issue->getHelp()) : null,
+                    $this->options['show-ref'] ? $this->escapeTableCell($issue->getRef()) : null
                 ], fn($value) => $value !== null);
 
                 if (!$path) {

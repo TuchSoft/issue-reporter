@@ -7,6 +7,7 @@ use Tuchsoft\IssueReporter\Format\Base\JsonFormatTrait;
 use Tuchsoft\IssueReporter\Format\Base\ParsableFormatInterface;
 use Tuchsoft\IssueReporter\Issue;
 use Tuchsoft\IssueReporter\Report;
+use Tuchsoft\IssueReporter\Utils\Path;
 
 
 /**
@@ -123,6 +124,7 @@ class Lsp extends AbstractFormat implements ParsableFormatInterface
         }
 
         $flatIssues = [];
+        $allPaths = [];
         foreach ($data as $notification) {
             if (!isset($notification['method']) || $notification['method'] !== 'textDocument/publishDiagnostics') {
                 continue;
@@ -135,6 +137,7 @@ class Lsp extends AbstractFormat implements ParsableFormatInterface
 
             // Extract the file path from the URI
             $filePath = str_replace('file://', '', $params['uri']);
+            $allPaths[] = $filePath;
 
             foreach ($params['diagnostics'] as $diagnostic) {
                 // Map LSP numeric severity back to internal severity
@@ -167,8 +170,16 @@ class Lsp extends AbstractFormat implements ParsableFormatInterface
             }
         }
 
+        // Report::fromJson() requires a non-empty basePath. The LSP payload only
+        // carries absolute URIs, so derive the base path from the parsed file paths.
+        $basePath = Path::findCommonBasePath($allPaths);
+        if ($basePath === '') {
+            $basePath = DIRECTORY_SEPARATOR;
+        }
+
         $reportData = [
             'name' => $name,
+            'basePath' => $basePath,
             'issues' => $flatIssues,
             'subReports' => [],
             'timeStart' => 0,
@@ -188,7 +199,9 @@ class Lsp extends AbstractFormat implements ParsableFormatInterface
 
     public static function supports(): array
     {
-        return [];
+        return [
+            ...self::FEATURE_ISSUE_STANDARD,
+        ];
     }
 
     public static function supportsExtra(): array

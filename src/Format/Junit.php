@@ -33,7 +33,7 @@ class Junit extends AbstractFormat implements ParsableFormatInterface
 
     public static function supports(): array
     {
-        return [];
+        return self::FEATURE_ISSUE_STANDARD;
     }
 
     public static function supportsExtra(): array
@@ -139,6 +139,10 @@ class Junit extends AbstractFormat implements ParsableFormatInterface
             $name = static::getDefaultReportName();
         }
 
+        if (trim($input) === '') {
+            throw new InvalidArgumentException('Invalid XML input: empty string');
+        }
+
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($input);
 
@@ -180,14 +184,33 @@ class Junit extends AbstractFormat implements ParsableFormatInterface
 
 
                 if ($this->options['parse-message']) {
-                    $parsed = $this->parseMessage($message, true);
-                    $message = $parsed['message'] ?? $message;
-                    $line = (!$line && $parsed['line']) ?? $line;
-                    $column = $parsed['col'] ?? $column;
-                    $help = $parsed['help'] ?? $help;
-                    $ref = $parsed['ref'] ?? $ref;
-                    $code = (!$code && $parsed['cod']) ?? $code;
-                    $severity = $parsed['severity'] ?? $severity;
+                    $parsed = $this->parseMessage($message);
+                    if (isset($parsed['message']) && $parsed['message'] !== '') {
+                        $message = $parsed['message'];
+                    }
+                    if (!$line && !empty($parsed['line'])) {
+                        $line = (int)$parsed['line'];
+                    }
+                    if (!empty($parsed['col'])) {
+                        $column = (int)$parsed['col'];
+                    }
+                    if (!empty($parsed['help'])) {
+                        $help = $parsed['help'];
+                    }
+                    if (!empty($parsed['ref'])) {
+                        $ref = $parsed['ref'];
+                    }
+                    if (!$code && !empty($parsed['cod'])) {
+                        $code = $parsed['cod'];
+                    }
+                    if (!empty($parsed['severity'])) {
+                        $severity = match (strtoupper(trim($parsed['severity']))) {
+                            'ERROR' => Issue::SEVERITY_ERROR,
+                            'WARNING' => Issue::SEVERITY_WARNING,
+                            'TIP' => Issue::SEVERITY_TIP,
+                            default => $severity,
+                        };
+                    }
                 }
 
 
@@ -207,7 +230,8 @@ class Junit extends AbstractFormat implements ParsableFormatInterface
                                 $column = (int)$propValue;
                                 break;
                             case 'extra':
-                                $extra = json_decode($propValue, true) ?? [];
+                                $decodedExtra = json_decode($propValue, true);
+                                $extra = is_array($decodedExtra) ? $decodedExtra : [];
                                 break;
                             case 'ref':
                                 $ref = $propValue;
@@ -222,8 +246,10 @@ class Junit extends AbstractFormat implements ParsableFormatInterface
             }
         }
 
-        $timeEnd = (int)$xml['timestamp'] ?? 0;
-        $timeStart = $timeEnd ? $timeEnd - ((int)$xml['time'] ?? 0) : 0;
+        $timeEnd = (int)($xml['timestamp'] ?? 0);
+        // The "time" attribute is written in milliseconds (like Report::getTotalTime()),
+        // while "timestamp" is in epoch seconds, so convert when reconstructing the start.
+        $timeStart = $timeEnd ? $timeEnd - ((int)($xml['time'] ?? 0) / 1000) : 0;
 
         $reportData = ['name' => $reportName, 'issues' => $flatIssues, 'subReports' => [], 'timeStart' => $timeStart, 'timeEnd' => $timeEnd, 'basePath' => Path::findCommonBasePath($allPaths)];
 

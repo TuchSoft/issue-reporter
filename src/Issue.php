@@ -39,7 +39,7 @@ class Issue implements \JsonSerializable
     /**
      * @var string The file path where the issue was found (relative to plugin root).
      */
-    private string $relativePath;
+    private string $relativePath = '';
     /**
      * @var int The line number where the issue was found.
      */

@@ -7,6 +7,7 @@ use Tuchsoft\IssueReporter\Format\Base\JsonFormatTrait;
 use Tuchsoft\IssueReporter\Format\Base\ParsableFormatInterface;
 use Tuchsoft\IssueReporter\Issue;
 use Tuchsoft\IssueReporter\Report;
+use Tuchsoft\IssueReporter\Utils\Path;
 
 /**
  * An implementation of a report format that serializes and deserializes
@@ -101,6 +102,7 @@ class SonarQube extends AbstractFormat implements ParsableFormatInterface
         }
 
         $flatIssues = [];
+        $allPath = [];
 
         // Invert the severity map for parsing
         $sonarqubeSeverityToInternal = array_flip(self::SEVERITY_TO_SONARQUBE_SEVERITY_MAP);
@@ -111,6 +113,15 @@ class SonarQube extends AbstractFormat implements ParsableFormatInterface
                 continue;
             }
 
+            // A malformed location (e.g. a string) is treated as empty, so the
+            // issue is still reported with the format's default values.
+            if (!is_array($location)) {
+                $location = [];
+            }
+
+            $path = $location['filePath'] ?? 'unknown_file';
+            $allPath[] = $path;
+
             $severityString = $sqIssue['severity'] ?? 'MINOR';
             $severity = $sonarqubeSeverityToInternal[$severityString] ?? Issue::SEVERITY_WARNING;
 
@@ -118,7 +129,7 @@ class SonarQube extends AbstractFormat implements ParsableFormatInterface
                 'message' => $location['message'] ?? 'No message provided',
                 'line' => $location['textRange']['startLine'] ?? 1,
                 'column' => $location['textRange']['startColumn'] ?? 1,
-                'path' => $location['filePath'] ?? 'unknown_file',
+                'path' => $path,
                 'code' => $sqIssue['ruleId'] ?? 'Unknown',
                 'severity' => $severity,
             ];
@@ -126,6 +137,7 @@ class SonarQube extends AbstractFormat implements ParsableFormatInterface
 
         $reportData = [
             'name' => $name,
+            'basePath' => Path::findCommonBasePath($allPath),
             'issues' => $flatIssues,
             'subReports' => [],
             'timeStart' => 0,
@@ -145,7 +157,9 @@ class SonarQube extends AbstractFormat implements ParsableFormatInterface
 
     public static function supports(): array
     {
-        return [];
+        return [
+            ...self::FEATURE_ISSUE_STANDARD,
+        ];
     }
 
     public static function supportsExtra(): array
