@@ -57,5 +57,4 @@
 - VERIFIED: composer validate --strict OK; autoload -o no PSR-4 warnings; Command 32, Recipe 32, Factory 5 OK; RawXmlTest 41480 OK.
 - Added Utils testsuite to phpunit.xml + fixed stale PathTest expectation (empty array -> '/'); Utils 24 OK. No suite excluded anymore.
 - Prior PathTest fail was PRE-EXISTING (never in a suite); now resolved.
-- PENDING (user): full suite run by other agent; THEN tag v1.0.0 + push; THEN submit on packagist.org. NOT published yet.
-- DELETE this block once committed.
+- DONE (2026-10-15): FULL suite OK 415217 tests / 4m27s. Committed (5 logical commits), tagged v1.0.0, pushed main + tag, GitHub Release created.

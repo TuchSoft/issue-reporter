@@ -25,3 +25,4 @@
 2026-10-15: .idea/ untracked + .gitignore `.idea/` — why: IDE noise, not part of the package.
 2026-10-15: .gitattributes export-ignore for /.idea /.agents /.complex_plans /CLAUDE.md /test /phpunit.xml /.gitattributes /.gitignore — why: slim Packagist dist. docs/ + README + LICENSE still shipped.
 2026-10-15: Added `Utils` testsuite to phpunit.xml + fixed stale PathTest expectation (`findCommonBasePath([])` -> '/', was '') — why: PathTest was excluded/unrun, hiding a stale expectation against an intentional implementation behavior.
+2026-10-15: Released v1.0.0 — 5 logical commits on main, annotated tag v1.0.0 pushed, GitHub Release created. Packagist submission still PENDING (no Packagist API token on the machine). Known limitations deferred to 1.1 (see docs/todo.md).
