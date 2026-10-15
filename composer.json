@@ -2,7 +2,9 @@
     "name": "tuchsoft/issue-reporter",
     "description": "A reporting library for static code analysis issues. It reads, aggregates, and formats common issue formats into various report types.",
     "type": "library",
-    "license": "GPL-3.0-or-later",
+    "license": "Apache-2.0",
+    "keywords": ["static analysis", "code analysis", "lint", "report", "reporting", "issues", "phpcs", "checkstyle", "sarif", "junit", "sonarqube"],
+    "homepage": "https://github.com/TuchSoft/issue-reporter",
     "autoload": {
         "psr-4": {
             "Tuchsoft\\IssueReporter\\": "src/",
@@ -23,18 +25,22 @@
         }
     ],
     "require": {
+        "php": ">=8.0",
         "ext-dom": "*",
+        "ext-simplexml": "*",
+        "ext-libxml": "*",
         "symfony/console": "^5 || ^6 || ^7",
         "davidbadura/markdown-builder": "^1.1",
         "erusev/parsedown": "^1",
         "riimu/kit-pathjoin": "^1.2",
-        "mustache/mustache": "^2 | ^3",
-      "ext-simplexml": "*",
-      "ext-libxml": "*"
+        "mustache/mustache": "^2 | ^3"
     },
     "require-dev": {
         "phpunit/phpunit": "^12.3"
+    },
+    "bin": ["bin/console"],
+    "support": {
+        "issues": "https://github.com/TuchSoft/issue-reporter/issues",
+        "source": "https://github.com/TuchSoft/issue-reporter"
     }
-
-
 }

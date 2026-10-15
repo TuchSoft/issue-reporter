@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c140998ad16dbd12d8a120c7ca2499c2",
+    "content-hash": "ae91a12944ec2ec2e6f511676aea405a",
     "packages": [
         {
             "name": "davidbadura/markdown-builder",
@@ -2648,6 +2648,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "php": ">=8.0",
         "ext-dom": "*",
         "ext-simplexml": "*",
         "ext-libxml": "*"

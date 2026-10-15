@@ -1,0 +1,10 @@
+# Files excluded from the Composer dist archive (Packagist).
+/.gitattributes   export-ignore
+/.gitignore       export-ignore
+/.idea            export-ignore
+/.agents          export-ignore
+/.complex_plans   export-ignore
+/CLAUDE.md        export-ignore
+/test             export-ignore
+/phpunit.xml      export-ignore
+/.phpunit.result.cache export-ignore
