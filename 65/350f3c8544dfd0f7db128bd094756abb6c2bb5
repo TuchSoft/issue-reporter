@@ -1,0 +1,16 @@
+.agents/memory/decisions.md
+  h_a912520b04f25d 28
+.agents/memory/volatile.md
+  h_a912520b04f25d 60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "65350f3c8544dfd0f7db128bd094756abb6c2bb5",
+  "prompts": {},
+  "humans": {
+    "h_a912520b04f25d": {
+      "author": "Mattia Bonzi <mattia@mattiabonzi.it>"
+    }
+  }
+}
