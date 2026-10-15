@@ -1,0 +1,20 @@
+.agents/memory/decisions.md
+  h_a912520b04f25d 28-30
+.agents/memory/gotchas.md
+  h_a912520b04f25d 25-26
+.agents/memory/patterns.md
+  h_a912520b04f25d 9
+.agents/memory/volatile.md
+  h_a912520b04f25d 61-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b082ae5f5651944d61f2a5a38cf1950ba196184a",
+  "prompts": {},
+  "humans": {
+    "h_a912520b04f25d": {
+      "author": "Mattia Bonzi <mattia@mattiabonzi.it>"
+    }
+  }
+}
