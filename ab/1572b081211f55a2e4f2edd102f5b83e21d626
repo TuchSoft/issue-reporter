@@ -1,0 +1,46 @@
+bin/console
+  h_a912520b04f25d 5-7,9,13,16-18,20-21,23
+src/Command/ArgvNormalizer.php
+  h_a912520b04f25d 1-39
+src/Command/Base/AbstractListCommand.php
+  h_a912520b04f25d 1-99
+src/Command/Convert.php
+  h_a912520b04f25d 1-332
+src/Command/ListFormat.php
+  h_a912520b04f25d 9,14-15,26,31,46,50,52,55,58,62,71
+src/Command/ListTransformer.php
+  h_a912520b04f25d 1-57
+src/Factory.php
+  h_a912520b04f25d 9,48-54
+src/Recipe/RecipeBuilder.php
+  h_a912520b04f25d 1-137
+src/Recipe/RecipeException.php
+  h_a912520b04f25d 1-11
+src/Recipe/RecipeLoader.php
+  h_a912520b04f25d 1-240
+test/Command/ArgvNormalizerTest.php
+  h_a912520b04f25d 1-69
+test/Command/ConvertTest.php
+  h_a912520b04f25d 1-532
+test/Command/ListFormatTest.php
+  h_a912520b04f25d 1-34
+test/Command/ListTransformerTest.php
+  h_a912520b04f25d 1-26
+test/Factory/FactoryTest.php
+  h_a912520b04f25d 1-52
+test/Recipe/RecipeBuilderTest.php
+  h_a912520b04f25d 1-219
+test/Recipe/RecipeLoaderTest.php
+  h_a912520b04f25d 1-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ab1572b081211f55a2e4f2edd102f5b83e21d626",
+  "prompts": {},
+  "humans": {
+    "h_a912520b04f25d": {
+      "author": "Mattia Bonzi <mattia@mattiabonzi.it>"
+    }
+  }
+}
