@@ -1,0 +1,42 @@
+.agents/memory/architecture.md
+  h_a912520b04f25d 1-16
+.agents/memory/decisions.md
+  h_a912520b04f25d 1-27
+.agents/memory/filemap.md
+  h_a912520b04f25d 1-15
+.agents/memory/gotchas.md
+  h_a912520b04f25d 1-24
+.agents/memory/index.md
+  h_a912520b04f25d 1-7
+.agents/memory/patterns.md
+  h_a912520b04f25d 1-9
+.agents/memory/todo.md
+  h_a912520b04f25d 1-4
+.agents/memory/volatile.md
+  h_a912520b04f25d 1-61
+.agents/settings.toml
+  h_a912520b04f25d 1-4
+LICENSE
+  h_a912520b04f25d 1-201
+README.md
+  h_a912520b04f25d 1-158
+docs/architecture.md
+  h_a912520b04f25d 1-104
+docs/cli.md
+  h_a912520b04f25d 1-193
+docs/index.md
+  h_a912520b04f25d 1-61
+docs/todo.md
+  h_a912520b04f25d 1-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f2da52a3eaa71a6003f0c7354e7cc5f932e91e25",
+  "prompts": {},
+  "humans": {
+    "h_a912520b04f25d": {
+      "author": "Mattia Bonzi <mattia@mattiabonzi.it>"
+    }
+  }
+}
