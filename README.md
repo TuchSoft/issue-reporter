@@ -155,4 +155,4 @@ Extended documentation lives in [`docs/`](docs/index.md):
 
 ## License
 
-Released under the [Apache License 2.0](LICENSE) — © Mattia Bonzi.
+Released under the [Apache License 2.0](LICENSE) — © 2026 TuchSoft.
