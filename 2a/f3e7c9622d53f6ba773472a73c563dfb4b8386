@@ -1,0 +1,20 @@
+.gitattributes
+  h_a912520b04f25d 1-10
+.gitignore
+  h_a912520b04f25d 16-18,235-237
+composer.json
+  h_a912520b04f25d 5-7,28,30-31,36,40-44
+composer.lock
+  h_a912520b04f25d 7,2651
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2af3e7c9622d53f6ba773472a73c563dfb4b8386",
+  "prompts": {},
+  "humans": {
+    "h_a912520b04f25d": {
+      "author": "Mattia Bonzi <mattia@mattiabonzi.it>"
+    }
+  }
+}
