@@ -1,0 +1,15 @@
+# Filemap
+- bin/console: CLI app; registers ListFormat, ListTransformer, Convert; default list-format.
+- src/Factory.php: registry (register / registerNamespace / registerClass / create / getRegistered).
+- src/Reporter.php: registerFormats, getOptionsDefinition (aggregated), printReport (transform->generate).
+- src/Report.php, src/Issue.php: model.
+- src/Base/: LoadableInterface, LoadableTrait (option defs + setOptions).
+- src/Format/: concrete formats (Info/InfoMd/InfoHtml native; PhpCs/Checkstyle/Junit/GitLab/SonarQube/Sarif/Lsp/Emacs/Raw/RawXml parsable). src/Format/Base/: interfaces + traits.
+- src/Transformer/: MessageReplacer. src/Transformer/base/: TransformerInterface + AbstractTransformer.
+- src/Command/: ListFormat.php, ListTransformer.php, Convert.php. src/Command/Base/AbstractListCommand.php.
+- src/Recipe/: RecipeLoader.php (read+validate JSON recipe), RecipeBuilder.php (recipe -> Report tree), RecipeException.php.
+- src/Utils/: Path, Formatter, NullInput.
+- test/Format/: big matrix tests. Now ALL 13 formats: checkstyle/emacs/gitlab/phpcs/raw/rawxml + junit/sarif/sonarqube/lsp + info/infomd/infohtml. test/Command/: CLI tests (ListFormat, ListTransformer, Convert + every-format data tests). test/Recipe/: RecipeLoader + RecipeBuilder. test/Factory/: FactoryTest. test/Model/: ReportTest (relativePath). test/Utils/: PathTest. test/Base/: abstract test bases + Provider/.
+- README.md (root, dual-use overview), LICENSE (Apache-2.0), .gitattributes (export-ignore dev cruft).
+- docs/: index.md, cli.md, architecture.md, todo.md.
+- .agents/memory/: these files.

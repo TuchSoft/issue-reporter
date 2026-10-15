@@ -1,0 +1,24 @@
+# Gotchas
+- bin/console: setDefaultCommand('x', true) => Symfony SINGLE-command mode; hides `list` + all other cmds (1st arg becomes default cmd's arg). Use setDefaultCommand('x') only.
+- Factory transformer registration was broken (hardcoded FormatInterface) -> getRegistered(TRANSFORMER) empty -> printReport transformer loop no-op. FIXED: per-type iface.
+- Report::addIssue throws "not started" if !timeStart -> call start() first.
+- Report::fromJson requires name + basePath + issues keys.
+- BUG (open, see docs/todo): Report::issue() calls new Issue(...,$help,$ref) but Issue ctor 7th/8th params are ($ref,$help) -> help & ref SWAPPED when using Report::error/warning/tip.
+- Options dedup: Reporter::getOptionsDefinition keys by opt name -> last format wins for generic opts. Use prefixed <fmt>-<opt> for specificity. 66 unique names total (verified via OPTIONS_BOTH).
+- test/Format matrix is ~248k tests (~3m18s full run, 1.67GB). Not slow-fail; just big.
+- JSON format traits read $this->options['pretty'|'escape-slash'|'escape-unicode']; XML 'pretty'; Info 'max-width'|'color'|'emoji'.
+- Symfony: lone '-' is NOT bound as an option value (`--config -` => "requires a value"). Use `--config=-`; bin/console normalizes the space form for `--config`/`-c`.
+- Recipe strict separation: when --config is set, other flags/args are silently ignored (documented). Register flags (`--register-*`) are ignored too — put registration in the recipe `register` key.
+- Recipe sibling subreport names must be unique or RecipeException. Leaf nodes without explicit name keep the parsed report's name (e.g. all phpcs leaves default to "Parsed phpcs report" => collision) — name them.
+- RecipeBuilder validates the leaf format BEFORE reading the file (better error, no needless read).
+- FIXED: Issue::$relativePath was a typed prop with no default, set only by Report::addIssue(); Report::fromJson() inserts issues directly -> uninitialized -> info/infomd/infohtml/raw crashed ("must not be accessed before initialization"). Fix: default '' on the prop + Report::initRelativePath() computes it in fromJson when data lacks "relativePath".
+- FIXED: src/Utils/NullInput implements Symfony InputInterface with no return types -> fatal under Symfony 7.4 ("must be compatible with ...: ?string"). Fix: added return types, left params UNTYPED (contravariance) to stay compatible with symfony/console ^5||^6||^7. Only used by the ANSI `info` format.
+- Native readable formats (info/infomd/infohtml) had ZERO tests before -> both bugs above slipped through. Now per-format test/Format/{InfoTest,InfoMdTest,InfoHtmlTest}.php.
+- PER-FORMAT SUITE GAPS (fixed 2026-10-15): only checkstyle/emacs/gitlab/phpcs/raw/rawxml had tests; now junit/sarif/sonarqube/lsp + info/infomd/infohtml have adversarial suites. optionsMatrixProvider intersects by INTEGER KEY -> matrix only varies show-ref/show-help (per-format options never in matrix). Round-trip assertFeatures never reads relativePath.
+- FIXED format bugs: Junit::parse() &&/?? lost line+code; Sarif::generate() iterated grouped issues (fatal); Sarif/SonarQube/Lsp parse() omitted basePath (always threw); their supports() returned []. Native: HtmlFormatTrait wasn't escaping (XSS via Parsedown), MdFormatTrait broke tables on |/newlines, InfoFormatTrait::getSummary() labelled every row with parent name/time.
+- Native escaping hook: escapeTableCell() defined in AnsiFormatTrait (identity), MdFormatTrait (\| + newline-><br>), HtmlFormatTrait (htmlspecialchars + md-escape). InfoInfoHtml trait precedence relies on the DIRECT trait winning over the inherited one.
+- Sarif/Lsp generate() still emit help/ref regardless of show-help/show-ref -> can't declare HELP/REF features (open, docs/todo).
+- phpunit.xml suites = Format, Command, Recipe, Factory, Utils, Model.
+- PathTest stale expectation fixed: `findCommonBasePath([])` returns '/' (intentional early-return; callers use it as Report basePath, and '' normalizes to '/' anyway) — test expected '' (~pre-existing, never ran until Utils suite added).
+- Test files must be PSR-4 clean: RawXmlTest namespace was `Format` (fixed -> Tuchsoft\IssueReporter\Test\Format); GItLabTest.php misnamed (fixed -> GitLabTest.php). `composer dump-autoload -o` no longer warns.
+- src/Format/todo.md removed (stray); codeclimate idea lives in docs/todo.md backlog.

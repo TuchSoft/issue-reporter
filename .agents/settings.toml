@@ -1,0 +1,4 @@
+output = ["CLAUDE.md"]
+
+[snippets]
+# agentmail = false   # uncomment to disable a global snippet for this project
